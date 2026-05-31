@@ -86,7 +86,9 @@ export default function App() {
   const handleCapture = async () => {
     const trimmed = url.trim();
     if (!trimmed) return;
-    const withProto = trimmed.startsWith("http") ? trimmed : `https://${trimmed}`;
+    const withProto = trimmed.startsWith("http")
+      ? trimmed
+      : `https://${trimmed}`;
 
     setLoading(true);
     setError(null);
@@ -101,9 +103,11 @@ export default function App() {
       if (!response.ok) {
         let msg = `Server error ${response.status}`;
         try {
-          const j = await response.json() as { message?: string };
+          const j = (await response.json()) as { message?: string };
           if (j.message) msg = j.message;
-        } catch { /* ignore */ }
+        } catch {
+          /* ignore */
+        }
         throw new Error(msg);
       }
 
@@ -115,7 +119,8 @@ export default function App() {
 
       setResult({ imageUrl, apiUrl, elapsed, pageTitle });
     } catch (e: unknown) {
-      const msg = e instanceof Error ? e.message : "Failed to capture screenshot";
+      const msg =
+        e instanceof Error ? e.message : "Failed to capture screenshot";
       setError(msg);
     } finally {
       setLoading(false);
@@ -131,34 +136,37 @@ export default function App() {
       {/* Subtle grid background */}
       <div className="fixed inset-0 grid-bg pointer-events-none" />
       {/* Radial glow at top */}
-      <div className="fixed top-0 left-1/2 -translate-x-1/2 w-[600px] h-[300px] bg-violet-600/8 blur-[100px] rounded-full pointer-events-none" />
+      <div className="fixed top-0 left-1/2 -translate-x-1/2 w-150 h-75 bg-violet-600/8 blur-[100px] rounded-full pointer-events-none" />
 
       <div className="relative max-w-4xl mx-auto px-4 py-10 pb-20">
-
         {/* ── Header ─────────────────────────────────────────────────────── */}
         <header className="flex items-center justify-between mb-10">
-          <div className="flex items-center gap-2.5">
-            <div className="w-8 h-8 rounded-xl bg-violet-600/20 border border-violet-500/30 flex items-center justify-center">
-              <Camera size={16} className="text-violet-400" />
-            </div>
-            <span className="font-semibold text-sm text-zinc-300">Playwright Demo</span>
-            <Badge variant="outline" className="text-[10px] border-violet-500/30 text-violet-400 bg-violet-500/5">
+          <div className="flex items-center gap-1">
+            <img src="favicon.png" alt="logo" className="size-12" />
+
+            <span className="font-semibold text-sm text-zinc-300">
+              Playwright Demo
+            </span>
+            <Badge
+              variant="outline"
+              className="text-[10px] border-violet-500/30 text-violet-400 bg-violet-500/5"
+            >
               v2.0
             </Badge>
           </div>
 
           <div className="flex items-center gap-2">
             <a
-              href="https://playwright.glasscube.uz"
+              href="https://glasscube.uz"
               target="_blank"
               rel="noopener noreferrer"
               className="hidden sm:flex items-center gap-1.5 text-xs text-zinc-500 hover:text-zinc-300 transition-colors px-3 py-1.5 rounded-lg border border-white/6 hover:border-white/15"
             >
               <Zap size={11} className="text-violet-400" />
-              Live Demo
+              go to glasscube.uz
             </a>
             <a
-              href="https://github.com/glasscube/playwright-demo"
+              href="https://github.com/glasscubeio/playwright-demo"
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center gap-1.5 text-xs text-zinc-500 hover:text-zinc-300 transition-colors px-3 py-1.5 rounded-lg border border-white/6 hover:border-white/15"
@@ -179,11 +187,13 @@ export default function App() {
             <h1 className="text-4xl sm:text-5xl font-bold tracking-tight mb-4">
               <span className="gradient-text">Screenshot any website</span>
               <br />
-              <span className="text-zinc-400 text-3xl sm:text-4xl font-semibold">with full Playwright power</span>
+              <span className="text-zinc-400 text-3xl sm:text-4xl font-semibold">
+                with full Playwright power
+              </span>
             </h1>
             <p className="text-zinc-500 text-base max-w-xl mx-auto leading-relaxed">
-              Multi-browser rendering · device emulation · dark mode · PDF export —
-              all via a single HTTP request.
+              Multi-browser rendering · device emulation · dark mode · PDF
+              export — all via a single HTTP request.
             </p>
           </motion.div>
 
@@ -290,7 +300,9 @@ export default function App() {
             >
               <AlertCircle size={15} className="text-red-400 shrink-0 mt-0.5" />
               <div>
-                <p className="text-sm text-red-300 font-medium">Capture failed</p>
+                <p className="text-sm text-red-300 font-medium">
+                  Capture failed
+                </p>
                 <p className="text-xs text-red-400/70 mt-0.5">{error}</p>
               </div>
             </motion.div>
@@ -351,7 +363,10 @@ export default function App() {
       </div>
 
       {/* ── How it works modal ──────────────────────────────────────────── */}
-      <HowItWorksModal open={showHowItWorks} onClose={() => setShowHowItWorks(false)} />
+      <HowItWorksModal
+        open={showHowItWorks}
+        onClose={() => setShowHowItWorks(false)}
+      />
     </div>
   );
 }
